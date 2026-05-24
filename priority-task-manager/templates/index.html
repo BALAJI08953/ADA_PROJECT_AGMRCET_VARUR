@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priority Task Management System Using Heap-Based Priority Queue</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="top-panel">
+            <div>
+                <h1>Priority Task Management System Using Heap-Based Priority Queue</h1>
+                <p class="subtitle">
+                    Compare how the same task is handled by a max-heap priority queue
+                    and a naive list-based priority queue. In this version, a larger
+                    priority number means higher importance.
+                </p>
+            </div>
+
+            <form id="taskForm" class="task-form">
+                <label>
+                    Task name
+                    <input id="taskName" type="text" placeholder="Example: Submit assignment" required>
+                </label>
+
+                <label>
+                    Priority number
+                    <input id="taskPriority" type="number" min="1" placeholder="9" required>
+                </label>
+
+                <div class="button-row">
+                    <button type="submit" class="primary-button">Add Task</button>
+                    <button type="button" id="deleteBtn" class="danger-button">Delete Highest Priority Task</button>
+                    <button type="button" id="resetBtn" class="ghost-button">Reset</button>
+                </div>
+
+                <p id="message" class="message" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="legend">
+            <span><i class="dot high"></i> High priority (8+)</span>
+            <span><i class="dot medium"></i> Medium priority (4-7)</span>
+            <span><i class="dot low"></i> Low priority (1-3)</span>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <span>Heap top</span>
+                <strong id="heapTop">Empty</strong>
+            </article>
+            <article class="stat-card">
+                <span>Naive top</span>
+                <strong id="naiveTop">Empty</strong>
+            </article>
+            <article class="stat-card">
+                <span>Tasks added</span>
+                <strong id="addedCount">0</strong>
+            </article>
+            <article class="stat-card">
+                <span>Heap remaining</span>
+                <strong id="heapRemainingCount">0</strong>
+            </article>
+            <article class="stat-card">
+                <span>Naive remaining</span>
+                <strong id="naiveRemainingCount">0</strong>
+            </article>
+        </section>
+
+        <section class="visual-grid">
+            <article class="visual-card">
+                <div class="card-header">
+                    <h2>Max-Heap Tree Representation</h2>
+                    <p>Max-heap: parent priority is always greater than or equal to child priority.</p>
+                </div>
+                <div id="heapTree" class="tree-area"></div>
+                <div class="array-panel">
+                    <h3>Heap Array Representation</h3>
+                    <div id="heapArray" class="array-strip"></div>
+                </div>
+            </article>
+
+            <article class="visual-card">
+                <div class="card-header">
+                    <h2>Naive Method Representation</h2>
+                    <p>Unsorted list: insertion is simple, deletion searches one task at a time.</p>
+                </div>
+                <div id="naiveTree" class="tree-area naive-area"></div>
+                <div class="array-panel">
+                    <h3>Naive Array Representation</h3>
+                    <div id="naiveArray" class="array-strip"></div>
+                </div>
+            </article>
+        </section>
+
+        <section class="details-grid">
+            <article class="info-panel">
+                <h2>Step-by-Step Explanation</h2>
+                <ol id="stepsList" class="steps-list"></ol>
+            </article>
+
+            <article class="info-panel">
+                <h2>Time Complexity Comparison</h2>
+                <div class="complexity-table">
+                    <div class="table-row table-head">
+                        <span>Operation</span>
+                        <span>Heap</span>
+                        <span>Naive</span>
+                    </div>
+                    <div class="table-row">
+                        <span>Insertion</span>
+                        <span id="heapInsert">O(log n)</span>
+                        <span id="naiveInsert">O(1)</span>
+                    </div>
+                    <div class="table-row">
+                        <span>Delete highest priority</span>
+                        <span id="heapDelete">O(log n)</span>
+                        <span id="naiveDelete">O(n)</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <div id="deleteModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+        <section class="modal-card">
+            <h2 id="deleteTitle">Choose Delete Method</h2>
+            <p>Select which algorithm should find and remove the highest-priority task.</p>
+            <div class="method-grid">
+                <button type="button" id="deleteHeapBtn" class="method-button heap-method">
+                    Heap Method
+                    <span>Root removal: O(log n)</span>
+                </button>
+                <button type="button" id="deleteNaiveBtn" class="method-button naive-method">
+                    Naive Method
+                    <span>Linear search: O(n)</span>
+                </button>
+            </div>
+            <button type="button" id="cancelDeleteBtn" class="cancel-button">Cancel</button>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
