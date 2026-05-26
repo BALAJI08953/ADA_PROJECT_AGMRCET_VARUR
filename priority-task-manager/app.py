@@ -114,6 +114,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/api/health", methods=["GET"])
+def health():
+    """Give Render a lightweight endpoint for service health checks."""
+    return jsonify({"status": "ok"})
+
+
 @app.route("/api/state", methods=["GET"])
 def state():
     """Send current queue state when the page loads."""
